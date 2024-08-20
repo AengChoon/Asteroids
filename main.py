@@ -1,6 +1,6 @@
 import pygame
 from constants import *
-import player
+from player import Player
 
 def main():
     pygame.init()
@@ -10,7 +10,11 @@ def main():
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-    my_player = player.Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+
+    Player.containers = (updatable, drawable)
+    my_player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
     while True:
         for event in pygame.event.get():
@@ -19,8 +23,11 @@ def main():
 
         screen.fill("black")
 
-        my_player.update(delta_time)
-        my_player.draw(screen)
+        for instance in updatable:
+            instance.update(delta_time)
+
+        for instance in drawable:
+            instance.draw(screen)
 
         pygame.display.flip()
         delta_time = clock.tick(60) / 1000
