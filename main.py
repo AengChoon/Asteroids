@@ -38,10 +38,15 @@ def main():
         for instance in updatable:
             instance.update(delta_time)
 
-        for instance in asteroids:
-            if instance.is_colliding(my_player):
+        for asteroid in asteroids:
+            if asteroid.is_colliding(my_player):
                 print("Game over!")
                 return
+            
+            for shot in shots:
+                if asteroid.is_colliding(shot):
+                    asteroid.kill()
+                    shot.kill()
 
         for instance in drawable:
             instance.draw(screen)
