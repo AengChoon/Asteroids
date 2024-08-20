@@ -34,6 +34,11 @@ def main():
         for instance in updatable:
             instance.update(delta_time)
 
+        for instance in asteroids:
+            if instance.is_colliding(my_player):
+                print("Game over!")
+                return
+
         for instance in drawable:
             instance.draw(screen)
 
